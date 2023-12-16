@@ -5,21 +5,22 @@ authors = ["Juan Pablo Yamamoto <jpyamamoto@ciencias.unam.mx>"]
 edition = "2021"
 default-run = "advent_of_code"
 publish = false
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
 doctest = false
+
+[profile.dhat]
+inherits = "release"
+debug = 1
 
 [features]
 dhat-heap = ["dhat"]
 today = ["chrono"]
 test_lib = []
 
-[profile.dhat]
-inherits = "release"
-debug = 1
-
 [dependencies]
+
 # Template dependencies
 chrono = { version = "0.4.31", optional = true }
 dhat = { version = "0.3.2", optional = true }
