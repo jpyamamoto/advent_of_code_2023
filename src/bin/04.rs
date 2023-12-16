@@ -1,7 +1,6 @@
 advent_of_code::solution!(4);
 
 struct Card {
-    id: u32,
     winning: Vec<u32>,
     owned: Vec<u32>,
 }
@@ -33,11 +32,10 @@ fn parse(input: &str) -> Vec<Card> {
 
 fn parse_card(input: &str) -> Card {
     let parts : Vec<&str> = input.strip_prefix("Card ").unwrap().split(":").collect();
-    let id: u32 = parts[0].trim().parse().unwrap();
     let nums: Vec<Vec<u32>> = parts[1].split(" | ")
                                       .map(|s| s.trim().split_ascii_whitespace().map(|n| n.parse().unwrap()).collect())
                                       .collect();
-    Card { id, winning: nums[0].clone(), owned: nums[1].clone() }
+    Card { winning: nums[0].clone(), owned: nums[1].clone() }
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
