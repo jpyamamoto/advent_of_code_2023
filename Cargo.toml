@@ -29,3 +29,4 @@ tinyjson = "2.5.1"
 
 # Solution dependencies
 rayon = "1.8.0"
+itertools = "0.12.0"
