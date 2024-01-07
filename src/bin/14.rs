@@ -22,7 +22,7 @@ fn parse(input: &str) -> Map {
          .collect()
 }
 
-fn transpose(matrix: &mut Vec<Vec<Tile>>) -> &Vec<Vec<Tile>> {
+fn transpose(matrix: &mut Map) -> &Map {
     for i in 0..matrix.len() {
         for j in 0..i {
             let temp = matrix[i][j].clone();
@@ -34,18 +34,18 @@ fn transpose(matrix: &mut Vec<Vec<Tile>>) -> &Vec<Vec<Tile>> {
     matrix
 }
 
-fn mirror(matrix: &mut Vec<Vec<Tile>>) -> &Vec<Vec<Tile>> {
+fn mirror(matrix: &mut Map) -> &Map {
     matrix.iter_mut().for_each(|r| r.reverse());
     matrix
 }
 
-fn rotate(matrix: &mut Vec<Vec<Tile>>) -> &Vec<Vec<Tile>> {
+fn rotate(matrix: &mut Map) -> &Map {
     transpose(matrix);
     mirror(matrix);
     matrix
 }
 
-fn tilt(matrix: &mut Vec<Vec<Tile>>) -> &Vec<Vec<Tile>> {
+fn tilt(matrix: &mut Map) -> &Map {
     let (height, width) = (matrix.len(), matrix[0].len());
 
     let mut top: Vec<isize> = vec![-1; width];
@@ -70,7 +70,7 @@ fn tilt(matrix: &mut Vec<Vec<Tile>>) -> &Vec<Vec<Tile>> {
     matrix
 }
 
-fn cycle(matrix: &mut Vec<Vec<Tile>>) -> &Vec<Vec<Tile>> {
+fn cycle(matrix: &mut Map) -> &Map {
     for _ in 0..4 {
         tilt(matrix);
         rotate(matrix);
@@ -79,7 +79,7 @@ fn cycle(matrix: &mut Vec<Vec<Tile>>) -> &Vec<Vec<Tile>> {
     matrix
 }
 
-fn calculate_load(matrix: &Vec<Vec<Tile>>) -> u32 {
+fn calculate_load(matrix: &Map) -> u32 {
     let (height, width) = (matrix.len(), matrix[0].len());
 
     let mut result: u32 = 0;
@@ -109,7 +109,7 @@ pub fn part_one(input: &str) -> Option<u32> {
 pub fn part_two(input: &str) -> Option<u32> {
     let mut data = parse(input);
 
-    let mut seen: HashMap<Vec<Vec<Tile>>, usize> = HashMap::new();
+    let mut seen: HashMap<Map, usize> = HashMap::new();
     let mut i = 0;
 
     let begin_loop = loop {
