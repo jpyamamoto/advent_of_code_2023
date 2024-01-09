@@ -1,4 +1,5 @@
-use std::{collections::{HashSet, BinaryHeap}, fmt::Debug, cmp::Ordering};
+use std::collections::{HashSet, BinaryHeap};
+use std::cmp::Ordering;
 
 advent_of_code::solution!(17);
 
