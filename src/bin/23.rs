@@ -34,7 +34,7 @@ impl Coord {
         };
 
         ns.into_iter()
-          .filter(|&(x,y)| x >= 0 && y >= 0 && x < map[0].len() as isize && y < map.len() as isize)
+          .filter(|&(_,y)| y >= 0 && y < map.len() as isize) // Lateral boundaries
           .filter(|&(x,y)| map[y as usize][x as usize] != Tile::Forest)
           .map(|(x, y)| Coord(x, y))
           .collect()
@@ -117,17 +117,25 @@ fn solve(input: &str) -> Option<u32> {
     let starting_col = data[0].iter().position(|t| *t == Tile::Path).unwrap();
     let ending_col = data[data.len() - 1].iter().position(|t| *t == Tile::Path).unwrap();
 
+    let start = Coord(starting_col as isize, 0);
+    let end = Coord(ending_col as isize, data.len() as isize - 1);
+
     let graph = build_graph(
-        Coord(starting_col as isize, 0),
-        Coord(ending_col as isize, data.len() as isize - 1),
+        start,
+        end,
         &data);
 
+    // Reduce time in half by ending on the previous to last node.
+    // This is valid because there is only one path from previous to last.
+    let (&new_end, _) = graph.iter().find(|(_, v)| v.contains_key(&end)).unwrap();
+    let d = graph[&new_end][&end];
+
     longest_path(
-        Coord(starting_col as isize, 0),
-        Coord(ending_col as isize, data.len() as isize - 1),
+        start,
+        new_end,
         &mut vec![],
         &graph
-    ).map(|v| v as u32)
+    ).map(|v| (v + d) as u32)
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
